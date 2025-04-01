@@ -1,0 +1,46 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:5
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --eval 'db.runCommand(\"ping\").ok'" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install back-end dependencies
+        run: |
+          cd back-end
+          npm install
+
+      - name: Run back-end tests
+        run: |
+          cd back-end
+          npm test
+
+      - name: Install front-end dependencies
+        run: |
+          cd front-end
+          npm install
+
+      - name: Build front-end
+        run: |
+          cd front-end
+          npm run build
