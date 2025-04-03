@@ -1,0 +1,9 @@
+---
+# Ansible playbook skeleton.  Subsequent steps will add tasks to install Docker,
+# deploy the application, and configure monitoring.
+
+- hosts: servers
+  become: yes
+  tasks:
+    - name: Ping servers to verify connectivity
+      ansible.builtin.ping:
