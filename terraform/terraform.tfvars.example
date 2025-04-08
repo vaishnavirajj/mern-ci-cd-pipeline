@@ -1,0 +1,6 @@
+# Example variables file for Terraform
+
+aws_region     = "us-east-1"
+aws_profile    = "default"
+ami_id         = "ami-0c02fb55956c7d316"  # Update this with a valid AMI ID
+instance_type  = "t2.micro"
