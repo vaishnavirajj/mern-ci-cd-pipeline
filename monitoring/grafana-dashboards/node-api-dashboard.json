@@ -1,0 +1,43 @@
+{
+  "uid": "node-api-overview",
+  "title": "Node API Overview",
+  "version": 1,
+  "timezone": "browser",
+  "schemaVersion": 16,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "HTTP Requests per Second",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[1m])",
+          "legendFormat": "{{method}} {{handler}}",
+          "refId": "A"
+        }
+      ],
+      "xaxis": {
+        "mode": "time",
+        "show": true
+      },
+      "yaxes": [
+        {
+          "format": "reqps",
+          "label": "requests/sec",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "show": false
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 9
+      }
+    }
+  ]
+}
