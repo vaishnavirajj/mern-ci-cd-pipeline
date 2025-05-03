@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: myregistry/mern-app
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
+
+mongo:
+  enabled: true
