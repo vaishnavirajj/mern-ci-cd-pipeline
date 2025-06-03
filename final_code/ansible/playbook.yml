@@ -1,0 +1,25 @@
+---
+- name: Deploy DevOps MERN project
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Copy docker-compose file to remote host
+      copy:
+        src: ../docker-compose.yml
+        dest: /home/{{ ansible_user }}/devops_project/docker-compose.yml
+
+    - name: Ensure Docker is installed
+      package:
+        name: docker.io
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Ensure docker-compose module is present
+      pip:
+        name: docker-compose
+        state: present
+
+    - name: Start application containers
+      community.docker.docker_compose:
+        project_src: /home/{{ ansible_user }}/devops_project
+        state: present

@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+
+  environment {
+    DOCKER_IMAGE_BACKEND = 'devops/backend'
+    DOCKER_IMAGE_FRONTEND = 'devops/frontend'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Backend Build & Test') {
+      steps {
+        dir('final_code/back-end') {
+          sh 'npm install'
+          sh 'npm test'
+        }
+      }
+    }
+
+    stage('Frontend Build') {
+      steps {
+        dir('final_code/front-end') {
+          sh 'npm install'
+          sh 'npm run build'
+        }
+      }
+    }
+
+    stage('Docker Build') {
+      steps {
+        sh 'docker build -t $DOCKER_IMAGE_BACKEND final_code/back-end'
+        sh 'docker build -t $DOCKER_IMAGE_FRONTEND final_code/front-end'
+      }
+    }
+  }
+}
